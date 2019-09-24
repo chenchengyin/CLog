@@ -4,8 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 
 //apply plugin: 'com.novoda.bintray-release'//添加这一行
 //添加这两行
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.jfrog.bintray'
 
 
 //jackt.io
@@ -42,6 +42,7 @@ android {
 
 }
 
+/*
 def siteUrl = 'https://github.com/a371166028/CLog'   // 项目的主页 github地址
 def gitUrl = 'https://github.com/a371166028/CLog.git'   // Git仓库的url
 //发布到JCenter上的项目名字
@@ -74,7 +75,6 @@ artifacts {
     archives javadocJar
     archives sourcesJar
 }
-
 install {
     repositories.mavenInstaller {
         pom {
@@ -107,7 +107,6 @@ install {
         }
     }
 }
-
 //上传到JCenter
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -128,16 +127,12 @@ bintray {
         publish = true
     }
 }
-
+*/
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.core:core-ktx:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 
 //publish {
