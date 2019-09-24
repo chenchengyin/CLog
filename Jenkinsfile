@@ -6,7 +6,7 @@ node('apk') {
     INSTALL_COMMAND = './gradlew :library:install' //上传aar至maven库指令
     EMAIL_NOTIFICATION_RECIPIENTS='chenchengyin@cvte.com'  //如果编译失败，邮件接收人
 
-    env.ARTIFACT_ID="libmail"
+    env.ARTIFACT_ID="clog"
     env.AAR_PATH='library/build/outputs/aar/library-release.aar' //生成的aar完整路劲
     env.SOURCE_PATH='library/build/libs/library-sources.jar'
     env.POM_PATH='library/build/poms/pom-default.xml' //pom完整路劲

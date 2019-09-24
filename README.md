@@ -1,6 +1,6 @@
 # CLog
 
-([English](README.md) | 中文)
+(English | [中文](README_CN.md))
 
     CLog 是一个简洁/轻量的Android 日志打印库
 
