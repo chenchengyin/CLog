@@ -41,6 +41,7 @@ class KotlinLogTest {
 
         //打印消息到控制台和文件,需初始化时提前将日志文件夹,文件名等信息设置好
         CLog.file("打印到日志到文件")
+        //单个文件最大大小,最大保存时间,默认清除时间15天; OPS
 
         //自定义装饰
         CLog.init(true, "全局TAG", absolutePath, "ccy", MyLogDecoration())

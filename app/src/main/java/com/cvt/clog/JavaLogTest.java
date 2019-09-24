@@ -56,15 +56,10 @@ public class JavaLogTest {
                 null, new UseOtherLogEngine());
         CLog.d("TAG", "一条使用其他日志引擎打印的消息");
 
-
-
         CLog.init(true, "全局TAG", absolutePath, "ccy");
         CLog.d("这是一条普通的消息");
         CLog.d("自定义TAG","这是一条带自定义TAG的消息");
         CLog.d("自定义TAG","这是一条带自定义TAG的消息",new MyLogDecoration());
-//        CLog.pretty("这是一条显示漂亮的消息");
-//        CLog.json("{\"key\":\"value\"}");
-//        CLog.stackTrace("看一看调用栈");
 
         //打印消息到控制台和文件,需初始化时提前将日志文件夹,文件名等信息设置好
         CLog.file("Java打印到日志到文件");

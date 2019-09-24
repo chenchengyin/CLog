@@ -2,9 +2,22 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'com.novoda.bintray-release'//添加这一行
+//apply plugin: 'com.novoda.bintray-release'//添加这一行
+//添加这两行
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+
+//jackt.io
+apply plugin: 'com.github.dcendents.android-maven'//this
+group='com.github.chenchengyin'//this
 
 android {
+
+    lintOptions {
+        abortOnError false
+    }
+
     compileSdkVersion 28
 
 
@@ -29,22 +42,46 @@ android {
 
 }
 
-// 然后你可以拷贝下面这一大段 修改注释的地方
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-
-version = "1.0.1"// 区分library版本
-
 def siteUrl = 'https://github.com/a371166028/CLog'   // 项目的主页 github地址
 def gitUrl = 'https://github.com/a371166028/CLog.git'   // Git仓库的url
-group = "com.cvt.library.clog"            // Maven Group ID for the artifact，一般填你唯一的包名
+//发布到JCenter上的项目名字
+def libName = "CLog"
+group = "com.cvt.library"// Maven Group ID for the artifact，一般填你唯一的包名
+version = "1.0.1"// 区分library版本
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    options.linkSource true
+    classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
+//    failOnError false
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+//拷贝javadoc文件
+task copyDoc(type: Copy) {
+    from "${buildDir}/docs/"
+    into "docs"
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
 install {
     repositories.mavenInstaller {
         pom {
             project {
                 packaging 'aar'
                 //项目的描述
-                name 'Android Utils.'
+                name 'Android Log Utils.'
                 url siteUrl
                 // 许可证说明
                 licenses {
@@ -58,7 +95,7 @@ install {
                     developer {
                         id 'Cherry3120'
                         name '陈成印'
-                        email 'itmarshon@163.com'
+                        email 'chenchengyin3120@gmail.com'
                     }
                 }
                 scm {
@@ -70,24 +107,8 @@ install {
         }
     }
 }
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    options.linkSource true
-    classpath += project.files(project.android.getBootClasspath().join(File.pathSeparator))
-    failOnError false
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
+
+//上传到JCenter
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
@@ -95,14 +116,20 @@ bintray {
     key = properties.getProperty("bintray.apikey")
     configurations = ['archives']
     pkg {
-        repo = "maven"
-        name = "Utils"    //发布到JCenter上的项目名字
+        //注意：这里的repo值必须要和你创建Maven仓库的时候的名字一样
+        repo = "CLog"
+        //发布到JCenter上的项目名字
+        name = libName    //发布到JCenter上的项目名字
+        //项目描述
+        desc = 'Android Log Utils'
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
         publish = true
     }
 }
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -112,3 +139,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
+
+//publish {
+//    userOrg = 'novoda'
+//    groupId = 'com.novoda'
+//    artifactId = 'bintray-release'
+//    publishVersion = '0.3.4'
+//}
