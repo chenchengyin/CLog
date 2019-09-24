@@ -1,0 +1,65 @@
+apply plugin: 'com.github.dcendents.android-maven'
+
+static def genVersionName() {
+    String versionName = System.getenv("VERSION_NAME")
+    if (versionName != null) {
+        return versionName
+    } else {
+        return "UNDEFINED"
+    }
+}
+
+static def getGroupId(){
+    String groupId = System.getenv("GROUP_ID")
+    if (groupId != null) {
+        return groupId
+    } else {
+        return "UNDEFINED"
+    }
+}
+
+static def getArtifactId(){
+    String artifactId = System.getenv("ARTIFACT_ID")
+    if (artifactId != null) {
+        return artifactId
+    } else {
+        return "UNDEFINED"
+    }
+}
+
+static def getName(){
+    String name = System.getenv("LIB_NAME")
+    if (name != null) {
+        return name
+    } else {
+        return "UNDEFINED"
+    }
+}
+
+def _groupId = getGroupId()
+def _artifactId = getArtifactId()
+def _versionName = genVersionName()
+def _name = getName()
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                groupId _groupId
+                artifactId _artifactId
+                version _versionName
+                name _name
+            }
+        }
+    }
+}
+
+artifacts {
+    archives sourcesJar
+}

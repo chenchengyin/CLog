@@ -51,5 +51,10 @@ class KotlinLogTest {
         //切换到其他日志引擎
         CLog.init(true, "全局TAG", absolutePath, "ccy", null, UseOtherLogEngine())
         CLog.d("TAG", "一条使用其他日志引擎打印的消息")
+
+
+        // 输出字符串
+//        LogUtils.d("12345")
+
     }
 }

@@ -3,7 +3,6 @@ package com.cvt.clog
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.cvt.library.clog.CLog
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +18,6 @@ class MainActivity : AppCompatActivity() {
         val javaLogTest = JavaLogTest()
         javaLogTest.testLog(applicationContext)
 
-        CLog.clearLogFile()
+//        CLog.clearLogFile()
     }
 }

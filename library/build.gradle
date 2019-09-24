@@ -18,12 +18,12 @@ android {
         abortOnError false
     }
 
-    compileSdkVersion 28
+    compileSdkVersion 26
 
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
 
@@ -41,6 +41,8 @@ android {
     resourcePrefix "cherry" //资源标识前缀 随意填写
 
 }
+
+apply from: rootProject.projectDir.path + '/genPom.gradle'
 
 /*
 def siteUrl = 'https://github.com/a371166028/CLog'   // 项目的主页 github地址
@@ -133,6 +135,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.0.2'
+
+    implementation 'com.apkfuns.logutils:library:1.7.5'
+
 }
 
 //publish {

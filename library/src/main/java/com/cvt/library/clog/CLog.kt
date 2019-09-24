@@ -2,6 +2,7 @@
 
 package com.cvt.library.clog
 
+import com.apkfuns.logutils.LogUtils
 import com.cvt.library.clog.Constants.A
 import com.cvt.library.clog.Constants.D
 import com.cvt.library.clog.Constants.E
