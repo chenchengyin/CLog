@@ -136,7 +136,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.0.2'
 
-    implementation 'com.apkfuns.logutils:library:1.7.5'
+    implementation 'com.github.pqpo:Log4a:1.4.2'
 
 }
 

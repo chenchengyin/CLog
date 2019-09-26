@@ -10,7 +10,7 @@ import org.json.JSONObject
  */
 open class JsonLogDecoration : BaseLogDecoration() {
     val JSON_INDENT = 4
-    override fun process(msg: String): String {
+    override fun process(tag: String, msg: String): String {
         var message: String
         if (msg.startsWith("{")) {
             var jsonObject = JSONObject(msg)

@@ -2,6 +2,8 @@ package com.cvt.clog;
 
 import android.content.Context;
 import com.cvt.library.clog.CLog;
+import com.cvt.library.clog.Log4aFileLogEngine;
+import com.cvt.library.clog.LogOptions;
 
 /**
  * Date: 2019-09-07 09:52
@@ -73,5 +75,18 @@ public class JavaLogTest {
         CLog.init(true, "全局TAG", absolutePath, "ccy", null,
                 new UseOtherLogEngine());
         CLog.d("TAG", "一条使用其他日志引擎打印的消息");
+
+        LogOptions logOptions = new LogOptions();
+        logOptions.setLogDir(absolutePath);
+        logOptions.setLogFileNamePrefix("ccy");
+        logOptions.setFileLogEngine(new Log4aFileLogEngine(applicationContext));
+        CLog.init(true, logOptions);
+        CLog.file("使用Log4a打印到文件");
+
+
+        //封装后打印的log
+        logOptions.setCustomWrapper(true);
+        CLog.init(true, logOptions);
+        LogPrinter.INSTANCE.d("二次封装打印");
     }
 }

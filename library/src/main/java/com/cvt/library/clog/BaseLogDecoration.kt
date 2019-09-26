@@ -6,7 +6,7 @@ package com.cvt.library.clog
  * Email: itmarshon@163.com
  */
 open class BaseLogDecoration {
-    open fun process(msg: String):String {
+    open fun process(tag:String ,msg: String):String {
         return msg
     }
 }

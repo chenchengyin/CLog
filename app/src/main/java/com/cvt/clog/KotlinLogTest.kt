@@ -2,6 +2,8 @@ package com.cvt.clog
 
 import android.content.Context
 import com.cvt.library.clog.CLog
+import com.cvt.library.clog.Log4aFileLogEngine
+import com.cvt.library.clog.LogOptions
 
 /**
  * Date: 2019-09-21 11:50
@@ -39,10 +41,6 @@ class KotlinLogTest {
         //打印消息,并带上当前的调用栈
         CLog.stackTrace("看一看调用栈")
 
-        //打印消息到控制台和文件,需初始化时提前将日志文件夹,文件名等信息设置好
-        CLog.file("打印到日志到文件")
-        //单个文件最大大小,最大保存时间,默认清除时间15天; OPS
-
         //自定义装饰
         CLog.init(true, "全局TAG", absolutePath, "ccy", MyLogDecoration())
         CLog.i("一条带装饰的日志") //全局
@@ -52,6 +50,23 @@ class KotlinLogTest {
         CLog.init(true, "全局TAG", absolutePath, "ccy", null, UseOtherLogEngine())
         CLog.d("TAG", "一条使用其他日志引擎打印的消息")
 
+        //打印消息到控制台和文件,需初始化时提前将日志文件夹,文件名等信息设置好
+        CLog.file("打印到日志到文件")
+        //单个文件最大大小,最大保存时间,默认清除时间15天; OPS
+
+        //使用Log4a高性能打印到文件
+        val logOptions = LogOptions()
+        logOptions.logDir = absolutePath
+        logOptions.logFileNamePrefix = "ccy"
+        logOptions.fileLogEngine = Log4aFileLogEngine(applicationContext)
+        CLog.init(true, logOptions)
+        CLog.file("使用Log4a打印到文件")
+
+
+        //封装后打印的log
+        logOptions.customWrapper = true
+        CLog.init(true, logOptions)
+        LogPrinter.d("二次封装打印")
 
         // 输出字符串
 //        LogUtils.d("12345")

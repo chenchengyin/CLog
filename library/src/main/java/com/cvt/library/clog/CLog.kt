@@ -2,7 +2,6 @@
 
 package com.cvt.library.clog
 
-import com.apkfuns.logutils.LogUtils
 import com.cvt.library.clog.Constants.A
 import com.cvt.library.clog.Constants.D
 import com.cvt.library.clog.Constants.E
@@ -12,17 +11,18 @@ import com.cvt.library.clog.Constants.W
 import java.io.File
 
 
-
 /**
  * Date: 2019-09-03 10:54
  * Author: chenchengyin on
  * Email: itmarshon@163.com
  *
- * 1.控制字符串显示效果,采用不同的显示策略
- * 2.Api适配java
- *
  */
 object CLog {
+    private lateinit var fileLogDecoration: FileLogDecoration
+    private lateinit var useLogDecoration: BaseLogDecoration
+    private lateinit var customLogDecoration: BaseLogDecoration
+    private var logWrapperFlag: Int = 0
+    private var fileLogEngine: LogEngine? = null
     private var useOtherLogEngine: LogEngine? = null
     private var stackTraceIndex: Int = 5
     private var isShowLog = true
@@ -32,9 +32,31 @@ object CLog {
     private var jsonLogDecoration = JsonLogDecoration()
     private var prettyLogDecoration = PrettyLogDecoration()
     private var stackLogDecoration = StackLogDecoration()
-    private lateinit var fileLogDecoration: FileLogDecoration
-    private lateinit var useLogDecoration: BaseLogDecoration
-    private lateinit var defaultLogDecoration: BaseLogDecoration
+
+    @JvmStatic
+    fun init(
+        isShowLog: Boolean = false,
+        logOptions: LogOptions = LogOptions()
+    ) {
+        this.isShowLog = isShowLog
+        this.globalTag = logOptions.globalTag
+        this.logDir = logOptions.logDir
+        this.logFilePrefixName = logOptions.logFileNamePrefix
+        this.customLogDecoration = logOptions.customLogDecoration ?: BaseLogDecoration()
+        this.useOtherLogEngine = logOptions.otherLogEngine
+        if (logOptions.customWrapper) {
+            this.logWrapperFlag = 1
+        } else {
+            this.logWrapperFlag = 0
+        }
+        this.fileLogEngine = logOptions.fileLogEngine ?: DefaultFleLogEngine(logDir, logFilePrefixName)
+        if (fileLogEngine is Log4aFileLogEngine) {
+            (fileLogEngine as Log4aFileLogEngine).logDir = logDir!!
+            (fileLogEngine as Log4aFileLogEngine).logFileNamePrefix = logFilePrefixName!!
+            (fileLogEngine as Log4aFileLogEngine).init()
+        }
+        fileLogDecoration = FileLogDecoration(fileLogEngine!!)
+    }
 
     @JvmStatic
     @JvmOverloads
@@ -50,22 +72,20 @@ object CLog {
         this.globalTag = globalTag
         this.logDir = logDir
         this.logFilePrefixName = logFileNamePrefix
-        this.defaultLogDecoration = customLogDecoration ?: BaseLogDecoration()
+        this.customLogDecoration = customLogDecoration ?: BaseLogDecoration()
         this.useOtherLogEngine = useOtherLogEngine
-        fileLogDecoration = FileLogDecoration(CLog.logDir!!, logFilePrefixName!!)
+        fileLogDecoration =
+            FileLogDecoration(DefaultFleLogEngine(logDir, logFilePrefixName))
     }
 
-//    不能使用 @JvmOverloads动态生成重载函数,否则不能确定stackTraceIndex
-
-    //一般打印方法
     @JvmStatic
     fun v(msg: Any) {
-        v(null, msg.toString(),null)
+        v(null, msg.toString(), null)
     }
 
     @JvmStatic
     fun v(tag: String, msg: Any) {
-        v(tag, msg.toString(),null)
+        v(tag, msg.toString(), null)
     }
 
     @JvmStatic
@@ -74,10 +94,10 @@ object CLog {
             useOtherLogEngine?.deliver(tag, msg)
             return
         }
-        useLogDecoration = decoration ?: defaultLogDecoration
-        if (decoration == null){
+        useLogDecoration = decoration ?: customLogDecoration
+        if (decoration == null) {
             stackTraceIndex = 6
-        }else{
+        } else {
             stackTraceIndex = 5
         }
         printLog(V, tag, msg.toString())
@@ -85,12 +105,12 @@ object CLog {
 
     @JvmStatic
     fun d(msg: Any) {
-        d(null, msg.toString(),null)
+        d(null, msg.toString(), null)
     }
 
     @JvmStatic
     fun d(tag: String, msg: Any) {
-        d(tag, msg.toString(),null)
+        d(tag, msg.toString(), null)
     }
 
     @JvmStatic
@@ -99,10 +119,10 @@ object CLog {
             useOtherLogEngine?.deliver(tag, msg)
             return
         }
-        useLogDecoration = decoration ?: defaultLogDecoration
-        if (decoration == null){
+        useLogDecoration = decoration ?: customLogDecoration
+        if (decoration == null) {
             stackTraceIndex = 6
-        }else{
+        } else {
             stackTraceIndex = 5
         }
         printLog(D, tag, msg.toString())
@@ -110,12 +130,12 @@ object CLog {
 
     @JvmStatic
     fun i(msg: Any) {
-        i(null, msg.toString(),null)
+        i(null, msg.toString(), null)
     }
 
     @JvmStatic
     fun i(tag: String, msg: Any) {
-        i(tag, msg.toString(),null)
+        i(tag, msg.toString(), null)
     }
 
     @JvmStatic
@@ -124,10 +144,10 @@ object CLog {
             useOtherLogEngine?.deliver(tag, msg)
             return
         }
-        useLogDecoration = decoration ?: defaultLogDecoration
-        if (decoration == null){
+        useLogDecoration = decoration ?: customLogDecoration
+        if (decoration == null) {
             stackTraceIndex = 6
-        }else{
+        } else {
             stackTraceIndex = 5
         }
         printLog(I, tag, msg.toString())
@@ -135,12 +155,12 @@ object CLog {
 
     @JvmStatic
     fun w(msg: Any) {
-        w(null, msg.toString(),null)
+        w(null, msg.toString(), null)
     }
 
     @JvmStatic
     fun w(tag: String, msg: Any) {
-        w(tag, msg.toString(),null)
+        w(tag, msg.toString(), null)
     }
 
     @JvmStatic
@@ -149,10 +169,10 @@ object CLog {
             useOtherLogEngine?.deliver(tag, msg)
             return
         }
-        useLogDecoration = decoration ?: defaultLogDecoration
-        if (decoration == null){
+        useLogDecoration = decoration ?: customLogDecoration
+        if (decoration == null) {
             stackTraceIndex = 6
-        }else{
+        } else {
             stackTraceIndex = 5
         }
         printLog(W, tag, msg.toString())
@@ -161,12 +181,12 @@ object CLog {
 
     @JvmStatic
     fun e(msg: Any) {
-        e(null, msg.toString(),null)
+        e(null, msg.toString(), null)
     }
 
     @JvmStatic
     fun e(tag: String, msg: Any) {
-        e(tag, msg.toString(),null)
+        e(tag, msg.toString(), null)
     }
 
     @JvmStatic
@@ -175,10 +195,10 @@ object CLog {
             useOtherLogEngine?.deliver(tag, msg)
             return
         }
-        useLogDecoration = decoration ?: defaultLogDecoration
-        if (decoration == null){
+        useLogDecoration = decoration ?: customLogDecoration
+        if (decoration == null) {
             stackTraceIndex = 6
-        }else{
+        } else {
             stackTraceIndex = 5
         }
         printLog(E, tag, msg.toString())
@@ -186,7 +206,7 @@ object CLog {
 
     @JvmStatic
     fun pretty(msg: Any) {
-        pretty(null,msg)
+        pretty(null, msg)
     }
 
     @JvmStatic
@@ -196,14 +216,15 @@ object CLog {
             return
         }
         useLogDecoration = prettyLogDecoration
-        if (tag == null){
+        if (tag == null) {
             stackTraceIndex = 6
-        }else{
+        } else {
             stackTraceIndex = 5
         }
         printLog(D, tag, msg.toString())
     }
 
+    /**Print the Log of the file type. Set logDir and logFilePrefixName in the init() method before calling*/
     @JvmStatic
     fun file(msg: Any) {
         stackTraceIndex = 6
@@ -218,20 +239,20 @@ object CLog {
         }
         require(!(logDir == null || logFilePrefixName == null)) { "logDir = null or logFilePrefixName = null, you should set them before use" }
         useLogDecoration = fileLogDecoration
-        if (tag == null){
+        if (tag == null) {
             stackTraceIndex = 6
-        }else{
+        } else {
             stackTraceIndex = 5
         }
         printLog(D, tag, msg.toString())
     }
 
     @JvmStatic
-    fun clearLogFile(){
-        if (logDir == null){
+    fun clearLogFile() {
+        if (logDir == null) {
             e("logDir is null")
         }
-        val file = File(logDir)
+        val file = File(logDir!!)
         val listFiles = file.listFiles()
         listFiles.forEach {
             it.delete()
@@ -240,10 +261,10 @@ object CLog {
 
     @JvmStatic
     fun getLogFiles(): Array<out File>? {
-        if (logDir == null){
+        if (logDir == null) {
             e("logDir is null")
         }
-        val file = File(logDir)
+        val file = File(logDir!!)
         return file.listFiles()
     }
 
@@ -251,7 +272,7 @@ object CLog {
     @JvmStatic
     fun json(msg: Any) {
         stackTraceIndex = 6
-        json(null,msg)
+        json(null, msg)
     }
 
     @JvmStatic
@@ -261,9 +282,9 @@ object CLog {
             return
         }
         useLogDecoration = jsonLogDecoration
-        if (tag == null){
+        if (tag == null) {
             stackTraceIndex = 6
-        }else{
+        } else {
             stackTraceIndex = 5
         }
         printLog(D, tag, msg.toString())
@@ -272,7 +293,7 @@ object CLog {
     @JvmStatic
     fun stackTrace(msg: Any) {
         stackTraceIndex = 6
-        stackTrace(null,msg)
+        stackTrace(null, msg)
     }
 
     @JvmStatic
@@ -282,19 +303,19 @@ object CLog {
             return
         }
         useLogDecoration = stackLogDecoration
-        if (tag == null){
+        if (tag == null) {
             stackTraceIndex = 6
-        }else{
+        } else {
             stackTraceIndex = 5
         }
         printLog(D, tag, msg.toString())
     }
 
-    fun printLog(type: Int, tagStr: String?, objects: String) {
+    private fun printLog(type: Int, tagStr: String?, objects: String) {
         if (!isShowLog) {
             return
         }
-        val contents = wrapperContent(stackTraceIndex, tagStr, objects)
+        val contents = wrapperContent(stackTraceIndex + logWrapperFlag, tagStr, objects)
         val tag = contents[0]
         val msg = contents[1]
         val headString = contents[2]
@@ -308,18 +329,17 @@ object CLog {
     }
 
     private fun reset() {
-        useLogDecoration = defaultLogDecoration
+        useLogDecoration = customLogDecoration
     }
 
     private fun wrapperContent(stackTraceIndex: Int, tagStr: String?, objects: String): Array<String> {
         val stackTrace = Thread.currentThread().stackTrace
         val targetElement = stackTrace[stackTraceIndex]
-//        Log.e("测试", "targetElement: $targetElement")
         val fileName = targetElement.fileName
         var className = targetElement.className
         val suffix = fileName!!.substring(fileName.lastIndexOf("."))
         val classNameInfo = className.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        if (classNameInfo.size > 0) {
+        if (classNameInfo.isNotEmpty()) {
             className = classNameInfo[classNameInfo.size - 1] + suffix
         }
         if (className.contains("$")) {
@@ -331,12 +351,21 @@ object CLog {
             lineNumber = 0
         }
         val tag = tagStr ?: globalTag ?: className
-        val msg = getObjectsString(objects)
+        val msg = useLogDecoration.process(tag, objects)
         val headString = "[ ($className:$lineNumber)#$methodName ] "
         return arrayOf(tag, msg, headString)
     }
 
-    private fun getObjectsString(objects: String): String {
-        return useLogDecoration.process(objects)
+
+    /**
+     * This is to release the resource and write the cache log to the hard disk,
+     * calling the method before exiting the program As far as possible.
+     * */
+    @JvmStatic
+    fun release() {
+        if (fileLogEngine != null && fileLogEngine is Log4aFileLogEngine) {
+            (fileLogEngine as Log4aFileLogEngine).release()
+        }
     }
+
 }

@@ -8,12 +8,10 @@ package com.cvt.library.clog
 class PrettyLogDecoration : BaseLogDecoration() {
     companion object {
         val lineCount = 120
-        val line =
-            "══════════════════════════════════════════════════════════════════════════════════════════════════" +
-                    "═══════════════════════════════════════════════════════════════════════════════════════════════════════"
+        val line = "══════════════════════════════════════════════════════════"
     }
 
-    override fun process(msg: String): String {
+    override fun process(tag: String, msg: String): String {
         val lineNum = msg.length / lineCount
         val sb = StringBuilder()
         var i = 0

@@ -9,7 +9,7 @@ import com.cvt.library.clog.BaseLogDecoration
  */
 class MyLogDecoration : BaseLogDecoration() {
 
-    override fun process(msg: String): String {
+    override fun process(tag: String, msg: String): String {
         return "[我是Log修饰] 内容:$msg"
     }
 

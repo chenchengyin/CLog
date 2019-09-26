@@ -12,7 +12,7 @@ class StackLogDecoration : BaseLogDecoration() {
         val  line = "═══════════════════════════════════════════════════════════════════════════════════════"
     }
 
-    override fun process(msg: String): String {
+    override fun process(tag: String, msg: String): String {
         var sb = StringBuilder()
         sb.append("\n╔$line\n")
         sb.append("║ $msg")
