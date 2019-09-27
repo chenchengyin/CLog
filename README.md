@@ -8,8 +8,10 @@
 
 #### 1.Gradle中引入依赖:
 dependencies {
-    implementation 'com.cvte.maxhub:clog:{last-version}'  //now is R.1.1.4
+    implementation 'com.cvte.maxhub:clog:{last-version}'  //now is R.1.1.6   
 }
+
+[获取最新版本](http://mhci.gz.cvte.cn/job/screen_share/job/Android_App/job/AndroidClog/job/master/)
 
 #### 2.初始化
     
