@@ -74,8 +74,10 @@ object CLog {
         this.logFilePrefixName = logFileNamePrefix
         this.customLogDecoration = customLogDecoration ?: BaseLogDecoration()
         this.useOtherLogEngine = useOtherLogEngine
+        val defaultFleLogEngine = DefaultFleLogEngine(logDir, logFilePrefixName)
         fileLogDecoration =
-            FileLogDecoration(DefaultFleLogEngine(logDir, logFilePrefixName))
+            FileLogDecoration(defaultFleLogEngine)
+        defaultFleLogEngine.init()
     }
 
     @JvmStatic

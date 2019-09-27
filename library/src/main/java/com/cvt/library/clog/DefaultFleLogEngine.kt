@@ -15,6 +15,7 @@ class DefaultFleLogEngine(var logDir: String?, var logFileNamePrefix: String?) :
 
     private var logDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     private var logFileFormat = SimpleDateFormat("yyyy-MM-dd")
+    val MAX_FILE_COUNT = 100
 
 
     override fun deliver(tag: String?, msg: Any) {
@@ -63,5 +64,18 @@ class DefaultFleLogEngine(var logDir: String?, var logFileNamePrefix: String?) :
     private fun getFileName(): String {
         var dateStr = logFileFormat.format(Date())
         return FILE_PREFIX + logFileNamePrefix + "_" + dateStr + FILE_FORMAT
+    }
+
+    fun init() {
+
+        //当超过100个,删除一半
+        val logFile = File(logDir)
+        val listFiles = logFile.listFiles()
+        if (listFiles != null && listFiles.size >= MAX_FILE_COUNT){
+            val iterator = listFiles.iterator()
+            repeat(1){
+                iterator.next().delete()
+            }
+        }
     }
 }
