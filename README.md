@@ -18,6 +18,20 @@ dependencies {
 Clog.init()  
 参数说明:请见API方法说明
 
+| 参数名 | 说明 | 类型 |
+| :------| ------: | :------: |
+| isShowLog | 日志开关 | Boolean |
+| logOptions | 日志初始化参数 | LogOptions |
+| globalTag | 全局标签 | String |
+| logDir | 日志文件夹 | String |
+| logFileNamePrefix | 日志文件前缀 | String |
+| customLogDecoration | 自定义呈现方式 | LogDecoration |
+| otherLogEngine | 自定义日志引擎 | LogEngine |
+| fileLogEngine | 文件日志引擎,可选DefaultFleLogEngine,Log4aFileLogEngine | LogEngine |
+| customWrapper | 是否经过二次封装 | Boolean |
+
+
+
 #### 3.调用Log方法并说明
 -    1. 打印一条普通消息 CLog.v("我是自定义TAG","一条普通的消息")
     

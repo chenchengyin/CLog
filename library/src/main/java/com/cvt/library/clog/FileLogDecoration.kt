@@ -7,7 +7,7 @@ package com.cvt.library.clog
  */
 class FileLogDecoration(
     var fileLogEngine: LogEngine
-) : BaseLogDecoration() {
+) : LogDecoration() {
 
 
     override fun process(tag: String, msg: String): String {

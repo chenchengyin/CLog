@@ -13,7 +13,7 @@ class LogOptions {
     /**file log name prefix*/
     var logFileNamePrefix: String? = null
     /**Decorate the log style with your favorite*/
-    var customLogDecoration: BaseLogDecoration? = BaseLogDecoration()
+    var customLogDecoration: LogDecoration? = LogDecoration()
     /**Use other print engines you like,if you set,please set customWrapper = true also*/
     var otherLogEngine: LogEngine? = null
     /**The engine for printing files can be either DefaultFleLogEngine or Log4aFileLogEngine*/

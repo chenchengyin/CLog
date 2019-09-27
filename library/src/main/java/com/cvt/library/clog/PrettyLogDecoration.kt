@@ -5,7 +5,7 @@ package com.cvt.library.clog
  * Author: chenchengyin on
  * Email: itmarshon@163.com
  */
-class PrettyLogDecoration : BaseLogDecoration() {
+class PrettyLogDecoration : LogDecoration() {
     companion object {
         val lineCount = 120
         val line = "══════════════════════════════════════════════════════════"

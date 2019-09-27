@@ -8,7 +8,7 @@ import org.json.JSONObject
  * Author: chenchengyin on
  * Email: itmarshon@163.com
  */
-open class JsonLogDecoration : BaseLogDecoration() {
+open class JsonLogDecoration : LogDecoration() {
     val JSON_INDENT = 4
     override fun process(tag: String, msg: String): String {
         var message: String

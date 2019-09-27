@@ -19,6 +19,20 @@ dependencies {
 Clog.init()  
 Parameter description: Please refer to the API doc method description
 
+| Parameter name | Description | Type |
+| :------| ------: | :------: |
+| isShowLog | Log switch | Boolean |
+| logOptions | Log initialization parameters | LogOptions |
+| globalTag | Global Tag | String |
+| logDir | Log Folder | String |
+| logFileNamePrefix | Log file prefix | String |
+| customLogDecoration | Custom presentation | LogDecoration |
+| otherLogEngine | Custom Log Engine | LogEngine |
+| fileLogEngine | File log engine, optional:DefaultFleLogEngine,Log4aFileLogEngine | LogEngine |
+| customWrapper | Is it encapsulated twice or not | Boolean |
+
+
+
 #### 3.Call the Log method and explain
 -    1. Print a normal message CLog.v("I am custom TAG","An ordinary message")
     

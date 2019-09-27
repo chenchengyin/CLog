@@ -7,7 +7,7 @@ import android.util.Log
  * Author: chenchengyin on
  * Email: itmarshon@163.com
  */
-class StackLogDecoration : BaseLogDecoration() {
+class StackLogDecoration : LogDecoration() {
     companion object{
         val  line = "═══════════════════════════════════════════════════════════════════════════════════════"
     }

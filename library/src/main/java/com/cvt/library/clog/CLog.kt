@@ -19,8 +19,8 @@ import java.io.File
  */
 object CLog {
     private lateinit var fileLogDecoration: FileLogDecoration
-    private lateinit var useLogDecoration: BaseLogDecoration
-    private lateinit var customLogDecoration: BaseLogDecoration
+    private lateinit var useLogDecoration: LogDecoration
+    private lateinit var customLogDecoration: LogDecoration
     private var logWrapperFlag: Int = 0
     private var fileLogEngine: LogEngine? = null
     private var useOtherLogEngine: LogEngine? = null
@@ -33,6 +33,10 @@ object CLog {
     private var prettyLogDecoration = PrettyLogDecoration()
     private var stackLogDecoration = StackLogDecoration()
 
+    /**
+     * @isShowLog Switch to display logs , true or false
+     * @logOptions : Initialization parameter options
+     */
     @JvmStatic
     fun init(
         isShowLog: Boolean = false,
@@ -42,7 +46,7 @@ object CLog {
         this.globalTag = logOptions.globalTag
         this.logDir = logOptions.logDir
         this.logFilePrefixName = logOptions.logFileNamePrefix
-        this.customLogDecoration = logOptions.customLogDecoration ?: BaseLogDecoration()
+        this.customLogDecoration = logOptions.customLogDecoration ?: LogDecoration()
         this.useOtherLogEngine = logOptions.otherLogEngine
         if (logOptions.customWrapper) {
             this.logWrapperFlag = 1
@@ -58,6 +62,14 @@ object CLog {
         fileLogDecoration = FileLogDecoration(fileLogEngine!!)
     }
 
+    /**
+     * @isShowLog Switch for Displaying Logs
+     * @globalTag Configure Global Tag
+     * @logDir Log Storage Folder Path
+     * @logFileNamePrefix Log Naming Prefix
+     * @customLogDecoration  Custom Presentation
+     * @useOtherLogEngine uses other log printing engines
+     */
     @JvmStatic
     @JvmOverloads
     fun init(
@@ -65,14 +77,14 @@ object CLog {
         globalTag: String? = null,
         logDir: String? = null,
         logFileNamePrefix: String? = null,
-        customLogDecoration: BaseLogDecoration? = null,
+        customLogDecoration: LogDecoration? = null,
         useOtherLogEngine: LogEngine? = null
     ) {
         this.isShowLog = isShowLog
         this.globalTag = globalTag
         this.logDir = logDir
         this.logFilePrefixName = logFileNamePrefix
-        this.customLogDecoration = customLogDecoration ?: BaseLogDecoration()
+        this.customLogDecoration = customLogDecoration ?: LogDecoration()
         this.useOtherLogEngine = useOtherLogEngine
         val defaultFleLogEngine = DefaultFleLogEngine(logDir, logFilePrefixName)
         fileLogDecoration =
@@ -91,7 +103,7 @@ object CLog {
     }
 
     @JvmStatic
-    fun v(tag: String?, msg: Any, decoration: BaseLogDecoration? = null) {
+    fun v(tag: String?, msg: Any, decoration: LogDecoration? = null) {
         if (useOtherLogEngine != null) {
             useOtherLogEngine?.deliver(tag, msg)
             return
@@ -116,7 +128,7 @@ object CLog {
     }
 
     @JvmStatic
-    fun d(tag: String?, msg: Any, decoration: BaseLogDecoration? = null) {
+    fun d(tag: String?, msg: Any, decoration: LogDecoration? = null) {
         if (useOtherLogEngine != null) {
             useOtherLogEngine?.deliver(tag, msg)
             return
@@ -141,7 +153,7 @@ object CLog {
     }
 
     @JvmStatic
-    fun i(tag: String?, msg: Any, decoration: BaseLogDecoration? = null) {
+    fun i(tag: String?, msg: Any, decoration: LogDecoration? = null) {
         if (useOtherLogEngine != null) {
             useOtherLogEngine?.deliver(tag, msg)
             return
@@ -166,7 +178,7 @@ object CLog {
     }
 
     @JvmStatic
-    fun w(tag: String?, msg: Any, decoration: BaseLogDecoration? = null) {
+    fun w(tag: String?, msg: Any, decoration: LogDecoration? = null) {
         if (useOtherLogEngine != null) {
             useOtherLogEngine?.deliver(tag, msg)
             return
@@ -192,7 +204,7 @@ object CLog {
     }
 
     @JvmStatic
-    fun e(tag: String?, msg: Any, decoration: BaseLogDecoration? = null) {
+    fun e(tag: String?, msg: Any, decoration: LogDecoration? = null) {
         if (useOtherLogEngine != null) {
             useOtherLogEngine?.deliver(tag, msg)
             return
