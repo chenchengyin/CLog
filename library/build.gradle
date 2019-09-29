@@ -42,7 +42,6 @@ android {
 
 }
 
-apply from: rootProject.projectDir.path + '/genPom.gradle'
 
 /*
 def siteUrl = 'https://github.com/a371166028/CLog'   // 项目的主页 github地址

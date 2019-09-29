@@ -33,5 +33,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 //    implementation project(path: ':library')
 //    implementation 'com.github.chenchengyin:CLog:1.0.2'
+    implementation 'com.github.chenchengyin:CLog:1.0.4'
 }
 
