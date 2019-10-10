@@ -8,9 +8,10 @@
 
 #### 1.Introducing dependencies in Gradle:
 dependencies {
-    implementation 'com.github.chenchengyin:CLog:{last-version}'  //now is 1.0.5
+    implementation 'com.github.chenchengyin:CLog:{last-version}'  //now is 1.0.6
 }
 
+Get New Version: https://github.com/chenchengyin/CLog/releases
 
 
 #### 2.initialization

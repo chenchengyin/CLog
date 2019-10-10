@@ -8,8 +8,10 @@
 
 #### 1.Gradle中引入依赖:
 dependencies {
-    implementation 'com.github.chenchengyin:CLog:{last-version}'  //now is 1.0.5  
+    implementation 'com.github.chenchengyin:CLog:{last-version}'  //now is 1.0.6  
 }
+
+获取最新版本: https://github.com/chenchengyin/CLog/releases
 
 
 #### 2.初始化
