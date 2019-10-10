@@ -2,6 +2,7 @@ package com.cvt.clog;
 
 import android.content.Context;
 import com.cvt.library.clog.CLog;
+import com.cvt.library.clog.DefaultFleLogEngine;
 import com.cvt.library.clog.Log4aFileLogEngine;
 import com.cvt.library.clog.LogOptions;
 
@@ -89,5 +90,18 @@ public class JavaLogTest {
         logOptions.setCustomWrapper(true);
         CLog.init(true, logOptions);
         LogPrinter.INSTANCE.d("二次封装打印");
+
+        //初始化完整示例
+        logOptions = new LogOptions();
+        logOptions.setGlobalLogEngine(new UseOtherLogEngine()); //UseOtherLogEngine是自定义全局打印引擎,设置则表示全局打印行为采用该引擎(包括文件引擎),不推荐设置
+        logOptions.setLogDir(absolutePath);
+        logOptions.setLogFileNamePrefix("ccy");
+        logOptions.setFileLogEngine(new Log4aFileLogEngine(applicationContext));
+        logOptions.setFileLogEngine(new DefaultFleLogEngine( absolutePath, "ccy")); //文件类型打印引擎,可选Log4aFileLogEngine(),注意和globalLogEngine的区别
+        logOptions.setCustomWrapper(false);  //默认为false,对需要对CLog做二次封装,则设置为true
+        logOptions.setGlobalTag("TAG");  //全局TAG,如不为空则表示所有打印行为都采用此TAG,否则为指定的TAG或当前类名称,默认为当前类名称
+        CLog.init(true, logOptions);
+
+
     }
 }

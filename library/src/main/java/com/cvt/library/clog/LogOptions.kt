@@ -15,7 +15,7 @@ class LogOptions {
     /**Decorate the log style with your favorite*/
     var customLogDecoration: LogDecoration? = LogDecoration()
     /**Use other print engines you like,if you set,please set customWrapper = true also*/
-    var otherLogEngine: LogEngine? = null
+    var globalLogEngine: LogEngine? = null
     /**The engine for printing files can be either DefaultFleLogEngine or Log4aFileLogEngine*/
     var fileLogEngine: LogEngine? = DefaultFleLogEngine(logDir, logFileNamePrefix)
     /**Set to true if the tool is re encapsulated*/
