@@ -31,6 +31,9 @@ class Log4aFileLogEngine(var context: Context) : LogEngine {
 
         //当超过100个,删除一半
         val logFile = File(logDir)
+        if (!logFile.exists()){
+            logFile.mkdir()
+        }
         val listFiles = logFile.listFiles()
         if (listFiles != null && listFiles.size >= MAX_FILE_COUNT){
             val iterator = listFiles.iterator()
