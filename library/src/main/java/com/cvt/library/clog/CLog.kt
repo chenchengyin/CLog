@@ -194,17 +194,27 @@ object CLog {
 
 
     @JvmStatic
-    fun e(msg: Any) {
-        e(null, msg.toString(), null)
+    fun e(msg: String) {
+        e(null, msg, null, null)
     }
 
     @JvmStatic
-    fun e(tag: String, msg: Any) {
-        e(tag, msg.toString(), null)
+    fun e(msg: String, e: Throwable) {
+        e(null, msg, null, e)
     }
 
     @JvmStatic
-    fun e(tag: String?, msg: Any, decoration: LogDecoration? = null) {
+    fun e(tag: String, msg: String) {
+        e(tag, msg, null, null)
+    }
+
+    @JvmStatic
+    fun e(tag: String, msg: String, e: Throwable) {
+        e(tag, msg, null, e)
+    }
+
+    @JvmStatic
+    fun e(tag: String?, msg: Any, decoration: LogDecoration? = null, e: Throwable? = null) {
         if (useOtherLogEngine != null) {
             useOtherLogEngine?.deliver(tag, msg)
             return
@@ -215,7 +225,7 @@ object CLog {
         } else {
             stackTraceIndex = 5
         }
-        printLog(E, tag, msg.toString())
+        printLog(E, tag, msg.toString(), e)
     }
 
     @JvmStatic
@@ -325,7 +335,7 @@ object CLog {
         printLog(D, tag, msg.toString())
     }
 
-    private fun printLog(type: Int, tagStr: String?, objects: String) {
+    private fun printLog(type: Int, tagStr: String?, objects: String, e: Throwable? = null) {
         if (!isShowLog) {
             return
         }
@@ -335,7 +345,7 @@ object CLog {
         val headString = contents[2]
 
         when (type) {
-            V, D, I, W, E, A -> Util.printDefault(type, tag, headString + msg)
+            V, D, I, W, E, A -> Util.printDefault(type, tag, headString + msg, e)
 //            JSON -> JsonLog.printJson(tag, msg, headString)
 //            XML -> XmlLog.printXml(tag, msg, headString)
         }

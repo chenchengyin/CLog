@@ -15,7 +15,7 @@ object Util {
 
     private val MAX_LENGTH = 4000
 
-    fun printDefault(type: Int, tag: String, msg: String) {
+    fun printDefault(type: Int, tag: String, msg: String, e: Throwable?) {
 
         var index = 0
         val length = msg.length
@@ -24,22 +24,22 @@ object Util {
         if (countOfSub > 0) {
             for (i in 0 until countOfSub) {
                 val sub = msg.substring(index, index + MAX_LENGTH)
-                printSub(type, tag, sub)
+                printSub(type, tag, sub, e)
                 index += MAX_LENGTH
             }
-            printSub(type, tag, msg.substring(index, length))
+            printSub(type, tag, msg.substring(index, length),e)
         } else {
-            printSub(type, tag, msg)
+            printSub(type, tag, msg,e)
         }
     }
 
-    private fun printSub(type: Int, tag: String, sub: String) {
+    private fun printSub(type: Int, tag: String, sub: String, e: Throwable?) {
         when (type) {
             V -> Log.v(tag, sub)
             D -> Log.d(tag, sub)
             I -> Log.i(tag, sub)
             W -> Log.w(tag, sub)
-            E -> Log.e(tag, sub)
+            E -> Log.e(tag, sub,e)
             A -> Log.wtf(tag, sub)
         }
     }
