@@ -24,6 +24,7 @@ public class JavaLogTest {
         CLog.d("一条普通的消息");
         CLog.w("一条普通的消息");
         CLog.e("一条普通的消息");
+        CLog.e("一条普通的消息",new RuntimeException("error"));
 
         //自带TAG
         CLog.d("我是自定义TAG", "这是一条带自定义TAG的消息");
