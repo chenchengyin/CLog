@@ -26,9 +26,41 @@ Parameter description: Please refer to the API doc method description
 | logDir | Log Folder | String |
 | logFileNamePrefix | Log file prefix | String |
 | customLogDecoration | Custom presentation | LogDecoration |
-| otherLogEngine | Custom Log Engine | LogEngine |
+| globalLogEngine | Custom Log Engine | LogEngine |
 | fileLogEngine | File log engine, optional:DefaultFleLogEngine,Log4aFileLogEngine | LogEngine |
 | customWrapper | Is it encapsulated twice or not | Boolean |
+
+Java Initialize the complete example
+
+```
+
+logOptions = new LogOptions();
+logOptions.setGlobalLogEngine(new UseOtherLogEngine()); // UseOtherLogEngine is a custom global print engine, the setting means that the global print behavior uses the engine (including the file engine), it is not recommended to set
+logOptions.setLogDir(absolutePath);
+logOptions.setLogFileNamePrefix("ccy");
+logOptions.setFileLogEngine(new Log4aFileLogEngine(applicationContext));
+logOptions.setFileLogEngine(new DefaultFleLogEngine( absolutePath, "ccy")); //File type print engine, optional Log4aFileLogEngine(), note the difference between globalLogEngine
+logOptions.setCustomWrapper(false);  //The default is false. Set to true if you need to re-encapsulate CLog.
+logOptions.setGlobalTag("TAG");  //Global TAG. If it is not empty, it means that all printing behaviors use this TAG. Otherwise, it is the specified TAG or current class name. The default is the current class name.
+CLog.init(true, logOptions); //The first parameter isShowLog is the log switch, false is not printing the log, the default is true
+
+
+```
+
+Kotlin  Initialize the complete example
+
+```
+logOptions = LogOptions()
+logOptions.globalLogEngine = UseOtherLogEngine() //UseOtherLogEngine is a custom global print engine, the setting means that the global print behavior uses this engine (including the file engine), it is not recommended to set
+logOptions.logDir = absolutePath
+logOptions.logFileNamePrefix = "ccy"
+logOptions.fileLogEngine = Log4aFileLogEngine(applicationContext)
+logOptions.fileLogEngine = DefaultFleLogEngine( absolutePath, "ccy") //File type print engine, optional Log4aFileLogEngine(), note the difference between globalLogEngine
+logOptions.customWrapper = false  //The default is false. Set to true if you need to re-encapsulate CLog.
+logOptions.globalTag = "TAG"  //Global TAG. If it is not empty, it means that all printing behaviors use this TAG. Otherwise, it is the specified TAG or current class name. The default is the current class name.
+CLog.init(true, logOptions) //The first parameter isShowLog is the log switch, false is not printing the log, the default is true
+
+```
 
 
 
