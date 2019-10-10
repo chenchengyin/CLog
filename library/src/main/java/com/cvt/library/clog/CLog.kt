@@ -39,7 +39,7 @@ object CLog {
      */
     @JvmStatic
     fun init(
-        isShowLog: Boolean = false,
+        isShowLog: Boolean = true,
         logOptions: LogOptions = LogOptions()
     ) {
         this.isShowLog = isShowLog
@@ -47,7 +47,7 @@ object CLog {
         this.logDir = logOptions.logDir
         this.logFilePrefixName = logOptions.logFileNamePrefix
         this.customLogDecoration = logOptions.customLogDecoration ?: LogDecoration()
-        this.useOtherLogEngine = logOptions.otherLogEngine
+        this.useOtherLogEngine = logOptions.globalLogEngine
         if (logOptions.customWrapper) {
             this.logWrapperFlag = 1
         } else {
@@ -73,7 +73,7 @@ object CLog {
     @JvmStatic
     @JvmOverloads
     fun init(
-        isShowLog: Boolean = false,
+        isShowLog: Boolean = true,
         globalTag: String? = null,
         logDir: String? = null,
         logFileNamePrefix: String? = null,

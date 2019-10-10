@@ -2,6 +2,7 @@ package com.cvt.clog
 
 import android.content.Context
 import com.cvt.library.clog.CLog
+import com.cvt.library.clog.DefaultFleLogEngine
 import com.cvt.library.clog.Log4aFileLogEngine
 import com.cvt.library.clog.LogOptions
 
@@ -56,7 +57,7 @@ class KotlinLogTest {
         //单个文件最大大小,最大保存时间,默认清除时间15天; OPS
 
         //使用Log4a高性能打印到文件
-        val logOptions = LogOptions()
+        var logOptions = LogOptions()
         logOptions.logDir = absolutePath
         logOptions.logFileNamePrefix = "ccy"
         logOptions.fileLogEngine = Log4aFileLogEngine(applicationContext)
@@ -71,6 +72,17 @@ class KotlinLogTest {
 
         // 输出字符串
 //        LogUtils.d("12345")
+
+        //初始化完整示例
+        logOptions = LogOptions()
+        logOptions.globalLogEngine = UseOtherLogEngine() //UseOtherLogEngine是自定义全局打印引擎,设置则表示全局打印行为采用该引擎(包括文件引擎),不推荐设置
+        logOptions.logDir = absolutePath
+        logOptions.logFileNamePrefix = "ccy"
+        logOptions.fileLogEngine = Log4aFileLogEngine(applicationContext)
+        logOptions.fileLogEngine = DefaultFleLogEngine( absolutePath, "ccy") //文件类型打印引擎,可选Log4aFileLogEngine(),注意和globalLogEngine的区别
+        logOptions.customWrapper = false  //默认为false,对需要对CLog做二次封装,则设置为true
+        logOptions.globalTag = "TAG"  //全局TAG,如不为空则表示所有打印行为都采用此TAG,否则为指定的TAG或当前类名称,默认为当前类名称
+        CLog.init(true, logOptions)
 
     }
 }
