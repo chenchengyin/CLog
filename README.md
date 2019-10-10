@@ -26,11 +26,41 @@ Clog.init()
 | logDir | 日志文件夹 | String |
 | logFileNamePrefix | 日志文件前缀 | String |
 | customLogDecoration | 自定义呈现方式 | LogDecoration |
-| otherLogEngine | 自定义日志引擎 | LogEngine |
-| fileLogEngine | 文件日志引擎,可选DefaultFleLogEngine,Log4aFileLogEngine | LogEngine |
+| globalLogEngine | 自定义全局日志引擎 | LogEngine |
+| fileLogEngine | 文件类型日志引擎,可选DefaultFleLogEngine,Log4aFileLogEngine | LogEngine |
 | customWrapper | 是否经过二次封装 | Boolean |
 
+Java初始化完整示例
 
+```
+
+logOptions = new LogOptions();
+logOptions.setGlobalLogEngine(new UseOtherLogEngine()); //UseOtherLogEngine是自定义全局打印引擎,设置则表示全局打印行为采用该引擎(包括文件引擎),不推荐设置
+logOptions.setLogDir(absolutePath);
+logOptions.setLogFileNamePrefix("ccy");
+logOptions.setFileLogEngine(new Log4aFileLogEngine(applicationContext));
+logOptions.setFileLogEngine(new DefaultFleLogEngine( absolutePath, "ccy")); //文件类型打印引擎,可选Log4aFileLogEngine(),注意和globalLogEngine的区别
+logOptions.setCustomWrapper(false);  //默认为false,对需要对CLog做二次封装,则设置为true
+logOptions.setGlobalTag("TAG");  //全局TAG,如不为空则表示所有打印行为都采用此TAG,否则为指定的TAG或当前类名称,默认为当前类名称
+CLog.init(true, logOptions); //第一个参数isShowLog为日志开关,false为不打印日志,默认为true
+
+
+```
+
+Kotlin初始化完整示例
+
+```
+logOptions = LogOptions()
+logOptions.globalLogEngine = UseOtherLogEngine() //UseOtherLogEngine是自定义全局打印引擎,设置则表示全局打印行为采用该引擎(包括文件引擎),不推荐设置
+logOptions.logDir = absolutePath
+logOptions.logFileNamePrefix = "ccy"
+logOptions.fileLogEngine = Log4aFileLogEngine(applicationContext)
+logOptions.fileLogEngine = DefaultFleLogEngine( absolutePath, "ccy") //文件类型打印引擎,可选Log4aFileLogEngine(),注意和globalLogEngine的区别
+logOptions.customWrapper = false  //默认为false,对需要对CLog做二次封装,则设置为true
+logOptions.globalTag = "TAG"  //全局TAG,如不为空则表示所有打印行为都采用此TAG,否则为指定的TAG或当前类名称,默认为当前类名称
+CLog.init(true, logOptions) //第一个参数isShowLog为日志开关,false为不打印日志,默认为true
+
+```
 
 #### 3.调用Log方法并说明
 -    1. 打印一条普通消息 CLog.v("我是自定义TAG","一条普通的消息")
