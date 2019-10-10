@@ -27,10 +27,10 @@ class DefaultFleLogEngine(var logDir: String?, var logFileNamePrefix: String?) :
         }
         val file = File(logDir, "Detail_" + getFileName())
         Runtime.getRuntime().exec("logcat -t 20 -f " + file.absoluteFile)
-        save(File(logDir), getFileName(), msg.toString())
+        save(File(logDir), getFileName(), tag, msg.toString())
     }
 
-    private fun save(dic: File, fileName: String, msg: String): Boolean {
+    private fun save(dic: File, fileName: String, tag: String?, msg: String): Boolean {
         val pid = android.os.Process.myPid()
         var dateStr = logDateFormat.format(Date())
         val file = File(dic, fileName)
@@ -39,7 +39,7 @@ class DefaultFleLogEngine(var logDir: String?, var logFileNamePrefix: String?) :
         try {
             outputStream = FileOutputStream(file, true)
             outputStreamWriter = OutputStreamWriter(outputStream, "UTF-8")
-            outputStreamWriter.write("$dateStr  $pid  $msg \n")
+            outputStreamWriter.write("data:$dateStr  pid:$pid  tag:$tag $msg \n")
             outputStreamWriter.flush()
 
             return true
@@ -67,15 +67,15 @@ class DefaultFleLogEngine(var logDir: String?, var logFileNamePrefix: String?) :
     }
 
     fun init() {
-        //当超过100个,删除一半
         val logFile = File(logDir)
-        if (!logFile.exists()){
+        if (!logFile.exists()) {
             logFile.mkdir()
         }
+        //当超过100个,删除一半
         val listFiles = logFile.listFiles()
-        if (listFiles != null && listFiles.size >= MAX_FILE_COUNT){
+        if (listFiles != null && listFiles.size >= MAX_FILE_COUNT) {
             val iterator = listFiles.iterator()
-            repeat(1){
+            repeat(MAX_FILE_COUNT / 2) {
                 iterator.next().delete()
             }
         }
