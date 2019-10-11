@@ -29,15 +29,15 @@ class Log4aFileLogEngine(var context: Context) : LogEngine {
         Log4a.setLogger(logger)
         logger.addAppender(createLog4aFileAppender())
 
-        //当超过100个,删除一半
         val logFile = File(logDir)
-        if (!logFile.exists()){
+        if (!logFile.exists()) {
             logFile.mkdir()
         }
+        //当超过100个,删除一半
         val listFiles = logFile.listFiles()
-        if (listFiles != null && listFiles.size >= MAX_FILE_COUNT){
+        if (listFiles != null && listFiles.size >= MAX_FILE_COUNT) {
             val iterator = listFiles.iterator()
-            repeat(1){
+            repeat(MAX_FILE_COUNT / 2) {
                 iterator.next().delete()
             }
         }

@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         val javaLogTest = JavaLogTest()
         javaLogTest.testLog(applicationContext)
 
-//        CLog.clearLogFile()
+        CLog.clearLogFile()
         CLog.release() //用了Log4aLogEngin时,程序退出要调用这个
     }
 }
