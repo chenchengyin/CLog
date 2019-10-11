@@ -17,8 +17,11 @@ class LogOptions {
     /**Use other print engines you like,if you set,please set customWrapper = true also*/
     var globalLogEngine: LogEngine? = null
     /**The engine for printing files can be either DefaultFleLogEngine or Log4aFileLogEngine*/
-    var fileLogEngine: LogEngine? = DefaultFleLogEngine(logDir, logFileNamePrefix)
+    var fileLogEngine: LogEngine? = null
     /**Set to true if the tool is re encapsulated*/
     var customWrapper = false
 
+    init {
+        fileLogEngine = DefaultFleLogEngine(logDir, logFileNamePrefix)
+    }
 }

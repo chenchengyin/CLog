@@ -15,17 +15,24 @@ public class JavaLogTest {
 
 
     public void testLog(Context applicationContext){
-
         //日志初始化
         String absolutePath = applicationContext.getCacheDir().getAbsolutePath();
+//        CLog.init(true);
         CLog.init(true, "全局TAG", absolutePath, "ccy");
         //打印一条消息
         CLog.v("一条普通的消息");
+        CLog.v("TAG","一条普通的消息");
         CLog.i("一条普通的消息");
+        CLog.i("TAG","一条普通的消息");
         CLog.d("一条普通的消息");
+        CLog.d("TAG","一条普通的消息");
         CLog.w("一条普通的消息");
+        CLog.w("TAG","一条普通的消息");
         CLog.e("一条普通的消息");
-        CLog.e("一条普通的消息",new RuntimeException("error"));
+        CLog.e("TAG","一条普通的消息");
+        CLog.e("一条普通的消息", new RuntimeException("error"));
+        CLog.e("TAG","一条普通的消息", new MyLogDecoration(),new RuntimeException("error"));
+
 
         //自带TAG
         CLog.d("我是自定义TAG", "这是一条带自定义TAG的消息");
@@ -39,12 +46,15 @@ public class JavaLogTest {
         }
         String toString = builder.toString();
         CLog.pretty(toString);
+        CLog.pretty("TAG",toString);
 
         //打印Json
         CLog.json("{\"key\":\"va\"}");
+        CLog.json("TAG","{\"key\":\"va\"}");
 
         //打印消息,并带上当前的调用栈
         CLog.stackTrace("看一看调用栈");
+        CLog.stackTrace("TAG","看一看调用栈");
 
         //打印消息到控制台和文件,需初始化时提前将日志文件夹,文件名等信息设置好
         CLog.file("打印到日志到文件");
