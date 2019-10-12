@@ -26,7 +26,7 @@ class DefaultFleLogEngine : LogEngine {
         if (logFileNamePrefix == null) {
             throw IllegalArgumentException("请调用CLog.init()设置日志文件名前缀")
         }
-        val file = File(logDir, "Detail_" + UUID.randomUUID() + getFileName())
+        val file = File(logDir, "Detail_"+ getFileName())
         Runtime.getRuntime().exec("logcat -t 20 -f " + file.absoluteFile)
         save(File(logDir), getFileName(), tag, msg.toString())
     }
