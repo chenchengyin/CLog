@@ -8,7 +8,7 @@
 
 #### 1.Gradle中引入依赖:
 dependencies {
-    implementation 'com.cvte.maxhub:clog:{last-version}'  //now is R.1.1.6   
+    implementation 'com.cvte.maxhub:clog:{last-version}'  //now is R.1.1.10  
 }
 
 [获取最新版本](http://mhci.gz.cvte.cn/job/screen_share/job/Android_App/job/AndroidClog/job/master/)
@@ -42,6 +42,9 @@ logOptions.setFileLogEngine(new Log4aFileLogEngine(applicationContext));
 logOptions.setFileLogEngine(new DefaultFleLogEngine( absolutePath, "ccy")); //文件类型打印引擎,可选Log4aFileLogEngine(),注意和globalLogEngine的区别
 logOptions.setCustomWrapper(false);  //默认为false,对需要对CLog做二次封装,则设置为true
 logOptions.setGlobalTag("TAG");  //全局TAG,如不为空则表示所有打印行为都采用此TAG,否则为指定的TAG或当前类名称,默认为当前类名称
+//文件类型日志打印等级,Log.VERBOSE/DEBUG/INFO/WARN/ERROR/ASSERT,如要关闭文件日志,
+// 则设置为比ASSERT更大的值, 推荐Integer.MAX_VALUE,默认为Integer.MAX_VALUE不开启
+logOptions.setFileLogLevel(Log.INFO);
 CLog.init(true, logOptions); //第一个参数isShowLog为日志开关,false为不打印日志,默认为true
 
 
@@ -58,6 +61,9 @@ logOptions.fileLogEngine = Log4aFileLogEngine(applicationContext)
 logOptions.fileLogEngine = DefaultFleLogEngine( absolutePath, "ccy") //文件类型打印引擎,可选Log4aFileLogEngine(),注意和globalLogEngine的区别
 logOptions.customWrapper = false  //默认为false,对需要对CLog做二次封装,则设置为true
 logOptions.globalTag = "TAG"  //全局TAG,如不为空则表示所有打印行为都采用此TAG,否则为指定的TAG或当前类名称,默认为当前类名称
+//文件类型日志打印等级,Log.VERBOSE/DEBUG/INFO/WARN/ERROR/ASSERT,如要关闭文件日志,
+// 则设置为比ASSERT更大的值, 推荐Integer.MAX_VALUE,默认不开启
+logOptions.fileLogLevel = Log.INFO
 CLog.init(true, logOptions) //第一个参数isShowLog为日志开关,false为不打印日志,默认为true
 
 ```

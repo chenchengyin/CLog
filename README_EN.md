@@ -8,7 +8,7 @@
 
 #### 1.Introducing dependencies in Gradle:
 dependencies {
-    implementation 'com.cvte.maxhub:clog:{last-version}'  //now is R.1.1.6
+    implementation 'com.cvte.maxhub:clog:{last-version}' 
 }
 
 [Get latest version:](http://mhci.gz.cvte.cn/job/screen_share/job/Android_App/job/AndroidClog/job/master/)
