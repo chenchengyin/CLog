@@ -15,7 +15,6 @@ import java.util.*
  * Email: itmarshon@163.com
  */
 class Log4aFileLogEngine(var context: Context) : LogEngine {
-    private val FILE_PREFIX = "Log_"
     private val FILE_FORMAT = ".log"
     lateinit var logDir: String
     lateinit var logFileNamePrefix: String
@@ -68,7 +67,7 @@ class Log4aFileLogEngine(var context: Context) : LogEngine {
 
     private fun getFileName(): String {
         var dateStr = logFileFormat.format(Date())
-        return FILE_PREFIX + logFileNamePrefix + "_" + dateStr + FILE_FORMAT
+        return logFileNamePrefix + "_" + dateStr + FILE_FORMAT
     }
 
     fun getCacheLogDir(context: Context): File {

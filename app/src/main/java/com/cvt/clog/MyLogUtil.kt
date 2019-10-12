@@ -7,7 +7,7 @@ import com.cvt.library.clog.CLog
  * Author: chenchengyin on
  * Email: itmarshon@163.com
  */
-object LogPrinter {
+object MyLogUtil {
 
     fun d(msg:String){
         CLog.i("$msg")

@@ -9,8 +9,9 @@ import java.util.*
  * Author: chenchengyin on
  * Email: itmarshon@163.com
  */
-class DefaultFleLogEngine(var logDir: String?, var logFileNamePrefix: String?) : LogEngine {
-    private val FILE_PREFIX = "Log_"
+class DefaultFleLogEngine : LogEngine {
+    var logDir: String? = null
+    var logFileNamePrefix: String? = null
     private val FILE_FORMAT = ".log"
 
     private var logDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -25,7 +26,7 @@ class DefaultFleLogEngine(var logDir: String?, var logFileNamePrefix: String?) :
         if (logFileNamePrefix == null) {
             throw IllegalArgumentException("请调用CLog.init()设置日志文件名前缀")
         }
-        val file = File(logDir, "Detail_" + getFileName())
+        val file = File(logDir, "Detail_" + UUID.randomUUID() + getFileName())
         Runtime.getRuntime().exec("logcat -t 20 -f " + file.absoluteFile)
         save(File(logDir), getFileName(), tag, msg.toString())
     }
@@ -39,7 +40,7 @@ class DefaultFleLogEngine(var logDir: String?, var logFileNamePrefix: String?) :
         try {
             outputStream = FileOutputStream(file, true)
             outputStreamWriter = OutputStreamWriter(outputStream, "UTF-8")
-            outputStreamWriter.write("data:$dateStr  pid:$pid  tag:$tag $msg \n")
+            outputStreamWriter.write("DATE:$dateStr  PID:$pid  TAG:$tag $msg \n")
             outputStreamWriter.flush()
 
             return true
@@ -63,7 +64,7 @@ class DefaultFleLogEngine(var logDir: String?, var logFileNamePrefix: String?) :
 
     private fun getFileName(): String {
         var dateStr = logFileFormat.format(Date())
-        return FILE_PREFIX + logFileNamePrefix + "_" + dateStr + FILE_FORMAT
+        return logFileNamePrefix + "_" + dateStr + FILE_FORMAT
     }
 
     fun init() {
