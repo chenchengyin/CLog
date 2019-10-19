@@ -44,6 +44,7 @@ object CLog {
         this.customLogDecoration = logOptions.customLogDecoration ?: LogDecoration()
         this.useOtherLogEngine = logOptions.globalLogEngine
         this.fileLogLevel = logOptions.fileLogLevel
+        this.fileLogEngine = logOptions.fileLogEngine
         if (logOptions.customWrapper) {
             this.logWrapperFlag = 1
         } else {
