@@ -6,5 +6,5 @@ package com.cvt.library.clog
  * Email: itmarshon@163.com
  */
 interface LogEngine {
-    fun deliver(tag : String?,msg:Any)
+    fun deliver(level:Int,tag : String?,msg:Any)
 }

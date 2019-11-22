@@ -16,7 +16,7 @@ class LogOptions {
     var customLogDecoration: LogDecoration? = null
     /**使用其他喜欢的打印引擎,如有设置,请同时将customWrapper为true, Use other print engines you like,if you set,please set customWrapper = true also*/
     var globalLogEngine: LogEngine? = null
-    /**打印文件的引擎可以是DefaultFleLogEngine或Log4aFileLogEngine The engine for printing files can be either DefaultFleLogEngine or Log4aFileLogEngine*/
+    /**打印文件的引擎可以是DefaultFleLogEngine或Log4aFileLogEngine The engine for printing files can be either DefaultFleLogEngine or FastFileLogEngine*/
     var fileLogEngine: LogEngine? = null
     /**如果重新封装该工具，则设置为true Set to true if the tool is re encapsulated*/
     var customWrapper = false
