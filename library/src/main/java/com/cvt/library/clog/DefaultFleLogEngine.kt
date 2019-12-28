@@ -19,7 +19,7 @@ class DefaultFleLogEngine : LogEngine {
     val MAX_FILE_COUNT = 100
 
 
-    override fun deliver(tag: String?, msg: Any) {
+    override fun deliver(type:Int,tag: String?, msg: Any) {
         if (logDir == null) {
             throw IllegalArgumentException("请调用CLog.init()设置日志文件夹名称")
         }
@@ -27,7 +27,7 @@ class DefaultFleLogEngine : LogEngine {
             throw IllegalArgumentException("请调用CLog.init()设置日志文件名前缀")
         }
         val file = File(logDir, "Detail_"+ getFileName())
-        Runtime.getRuntime().exec("logcat -t 20 -f " + file.absoluteFile)
+        Runtime.getRuntime().exec("logcat -t 10 -f " + file.absoluteFile)
         save(File(logDir), getFileName(), tag, msg.toString())
     }
 

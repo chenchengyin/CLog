@@ -52,11 +52,12 @@ object CLog {
         }
 
         if (logDir != null && logFilePrefixName != null) {
+
             fileLogEngine = fileLogEngine ?: DefaultFleLogEngine()
-            if (fileLogEngine is Log4aFileLogEngine) {
-                (fileLogEngine as Log4aFileLogEngine).logDir = logDir!!
-                (fileLogEngine as Log4aFileLogEngine).logFileNamePrefix = logFilePrefixName!!
-                (fileLogEngine as Log4aFileLogEngine).init()
+            if (fileLogEngine is FastFileLogEngine) {
+                (fileLogEngine as FastFileLogEngine).logDir = logDir!!
+                (fileLogEngine as FastFileLogEngine).logFileNamePrefix = logFilePrefixName!!
+                (fileLogEngine as FastFileLogEngine).init()
             } else if (fileLogEngine is DefaultFleLogEngine) {
                 (fileLogEngine as DefaultFleLogEngine).logDir = logDir
                 (fileLogEngine as DefaultFleLogEngine).logFileNamePrefix = logFilePrefixName
@@ -105,7 +106,7 @@ object CLog {
     @JvmStatic
     fun v(msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(null, msg)
+            useOtherLogEngine?.deliver(Log.VERBOSE, null, msg)
             return
         }
         checkIfDecoration(null)
@@ -115,7 +116,7 @@ object CLog {
     @JvmStatic
     fun v(tag: String, msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(null, msg)
+            useOtherLogEngine?.deliver(Log.VERBOSE, null, msg)
             return
         }
         checkIfDecoration(null)
@@ -125,7 +126,7 @@ object CLog {
     @JvmStatic
     fun v(tag: String?, msg: Any, decoration: LogDecoration? = null) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.VERBOSE, tag, msg)
             return
         }
         checkIfDecoration(decoration)
@@ -135,7 +136,7 @@ object CLog {
     @JvmStatic
     fun d(msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(null, msg)
+            useOtherLogEngine?.deliver(Log.DEBUG, null, msg)
             return
         }
         checkIfDecoration(null)
@@ -145,7 +146,7 @@ object CLog {
     @JvmStatic
     fun d(tag: String, msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.DEBUG, tag, msg)
             return
         }
         checkIfDecoration(null)
@@ -155,7 +156,7 @@ object CLog {
     @JvmStatic
     fun d(tag: String?, msg: Any, decoration: LogDecoration? = null) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.DEBUG, tag, msg)
             return
         }
         checkIfDecoration(decoration)
@@ -165,7 +166,7 @@ object CLog {
     @JvmStatic
     fun i(msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(null, msg)
+            useOtherLogEngine?.deliver(Log.INFO, null, msg)
             return
         }
         checkIfDecoration(null)
@@ -175,7 +176,7 @@ object CLog {
     @JvmStatic
     fun i(tag: String, msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.INFO, tag, msg)
             return
         }
         checkIfDecoration(null)
@@ -185,7 +186,7 @@ object CLog {
     @JvmStatic
     fun i(tag: String?, msg: Any, decoration: LogDecoration? = null) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.INFO, tag, msg)
             return
         }
         checkIfDecoration(decoration)
@@ -195,7 +196,7 @@ object CLog {
     @JvmStatic
     fun w(msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(null, msg)
+            useOtherLogEngine?.deliver(Log.WARN, null, msg)
             return
         }
         checkIfDecoration(null)
@@ -205,7 +206,7 @@ object CLog {
     @JvmStatic
     fun w(tag: String, msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.WARN, tag, msg)
             return
         }
         checkIfDecoration(null)
@@ -215,7 +216,7 @@ object CLog {
     @JvmStatic
     fun w(tag: String?, msg: Any, decoration: LogDecoration? = null) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.WARN, tag, msg)
             return
         }
         checkIfDecoration(decoration)
@@ -226,7 +227,7 @@ object CLog {
     @JvmStatic
     fun e(msg: String) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(null, msg)
+            useOtherLogEngine?.deliver(Log.ERROR, null, msg)
             return
         }
         checkIfDecoration(null)
@@ -237,7 +238,7 @@ object CLog {
     @JvmStatic
     fun e(msg: String, e: Throwable) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(null, msg)
+            useOtherLogEngine?.deliver(Log.ERROR, null, msg)
             return
         }
         checkIfDecoration(null)
@@ -248,7 +249,7 @@ object CLog {
     @JvmStatic
     fun e(tag: String, msg: String) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.ERROR, tag, msg)
             return
         }
         checkIfDecoration(null)
@@ -259,7 +260,7 @@ object CLog {
     @JvmStatic
     fun e(tag: String, msg: String, e: Throwable) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.ERROR, tag, msg)
             return
         }
         checkIfDecoration(null)
@@ -270,7 +271,7 @@ object CLog {
     @JvmStatic
     fun e(tag: String?, msg: Any, decoration: LogDecoration? = null, e: Throwable? = null) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.ERROR, tag, msg)
             return
         }
         checkIfDecoration(decoration)
@@ -281,7 +282,7 @@ object CLog {
     @JvmStatic
     fun pretty(msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(null, msg)
+            useOtherLogEngine?.deliver(Log.INFO, null, msg)
             return
         }
         checkIfDecoration(prettyLogDecoration)
@@ -291,35 +292,10 @@ object CLog {
     @JvmStatic
     fun pretty(tag: String? = null, msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.INFO, tag, msg)
             return
         }
         checkIfDecoration(prettyLogDecoration)
-        printLog(Log.DEBUG, tag, msg.toString())
-    }
-
-    /**Pri|nt the Log of the file type. Set logDir and logFilePrefixName in the init() method before calling*/
-    @Deprecated("Use field in LogOptions.fileLogLevel instead this method,then CLog normal")
-    @JvmStatic
-    fun file(msg: Any) {
-        if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(null, msg)
-            return
-        }
-        require(!(logDir == null || logFilePrefixName == null)) { "logDir = null or logFilePrefixName = null, you should set them before use" }
-        checkIfDecoration(null)
-        printLog(Log.DEBUG, null, msg.toString())
-    }
-
-    @Deprecated("Use field in LogOptions.fileLogLevel instead this method,then CLog normal")
-    @JvmStatic
-    fun file(tag: String? = null, msg: Any) {
-        if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
-            return
-        }
-        require(!(logDir == null || logFilePrefixName == null)) { "logDir = null or logFilePrefixName = null, you should set them before use" }
-        checkIfDecoration(null)
         printLog(Log.DEBUG, tag, msg.toString())
     }
 
@@ -348,7 +324,7 @@ object CLog {
     @JvmStatic
     fun json(msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(null, msg)
+            useOtherLogEngine?.deliver(Log.INFO, null, msg)
             return
         }
         checkIfDecoration(jsonLogDecoration)
@@ -358,7 +334,7 @@ object CLog {
     @JvmStatic
     fun json(tag: String? = null, msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.INFO, tag, msg)
             return
         }
         checkIfDecoration(jsonLogDecoration)
@@ -368,7 +344,7 @@ object CLog {
     @JvmStatic
     fun stackTrace(msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(null, msg)
+            useOtherLogEngine?.deliver(Log.INFO, null, msg)
             return
         }
         checkIfDecoration(stackLogDecoration)
@@ -378,7 +354,7 @@ object CLog {
     @JvmStatic
     fun stackTrace(tag: String? = null, msg: Any) {
         if (useOtherLogEngine != null) {
-            useOtherLogEngine?.deliver(tag, msg)
+            useOtherLogEngine?.deliver(Log.INFO, tag, msg)
             return
         }
         checkIfDecoration(stackLogDecoration)
@@ -395,7 +371,7 @@ object CLog {
         val headString = contents[2]
 
         if (type >= fileLogLevel && fileLogEngine != null) {
-            fileLogEngine!!.deliver(tagStr?:"",objects)
+            fileLogEngine!!.deliver(type, tagStr ?: "NULL", objects)
         }
         when (type) {
             Log.VERBOSE, Log.DEBUG, Log.INFO, Log.WARN, Log.ERROR, Log.ASSERT -> Util.printDefault(
@@ -412,18 +388,24 @@ object CLog {
         useLogDecoration = customLogDecoration
     }
 
-    private fun wrapperContent(stackTraceIndex: Int, tagStr: String?, objects: String): Array<String> {
+    private fun wrapperContent(
+        stackTraceIndex: Int,
+        tagStr: String?,
+        objects: String
+    ): Array<String> {
         val stackTrace = Thread.currentThread().stackTrace
         val targetElement = stackTrace[stackTraceIndex]
         val fileName = targetElement.fileName
         var className = targetElement.className
         val suffix = fileName!!.substring(fileName.lastIndexOf("."))
-        val classNameInfo = className.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val classNameInfo =
+            className.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         if (classNameInfo.isNotEmpty()) {
             className = classNameInfo[classNameInfo.size - 1] + suffix
         }
         if (className.contains("$")) {
-            className = className.split("\\$".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0] + suffix
+            className =
+                className.split("\\$".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[0] + suffix
         }
         val methodName = targetElement.methodName
         var lineNumber = targetElement.lineNumber
@@ -443,14 +425,29 @@ object CLog {
     }
 
     /**
-     * This is to release the resource and write the cache log to the hard disk,
+     * This is to flush the resource and write the cache log to the hard disk,
      * calling the method before exiting the program As far as possible.
      * */
     @JvmStatic
-    fun release() {
-        if (fileLogEngine != null && fileLogEngine is Log4aFileLogEngine) {
-            (fileLogEngine as Log4aFileLogEngine).release()
+    fun flush() {
+        if (fileLogEngine != null && fileLogEngine is FastFileLogEngine) {
+            (fileLogEngine as FastFileLogEngine).flush()
         }
     }
+
+
+    /**
+     *  Release resources
+     * It needs to be reinitialized in the next use.
+     * It is recommended to use it before the program exits
+     *
+     * */
+    @JvmStatic
+    fun release() {
+        if (fileLogEngine != null && fileLogEngine is FastFileLogEngine) {
+            (fileLogEngine as FastFileLogEngine).release()
+        }
+    }
+
 
 }

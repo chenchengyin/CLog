@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-//apply plugin: 'com.novoda.bintray-release'//添加这一行
+//apply plugin: 'com.novoda.bintray-flush'//添加这一行
 //添加这两行
 //apply plugin: 'com.github.dcendents.android-maven'
 //apply plugin: 'com.jfrog.bintray'
@@ -142,6 +142,6 @@ dependencies {
 //publish {
 //    userOrg = 'novoda'
 //    groupId = 'com.novoda'
-//    artifactId = 'bintray-release'
+//    artifactId = 'bintray-flush'
 //    publishVersion = '0.3.4'
 //}
