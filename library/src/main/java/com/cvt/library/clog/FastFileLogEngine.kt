@@ -64,9 +64,17 @@ class FastFileLogEngine(var context: Context) : LogEngine {
             throw IllegalArgumentException("请调用CLog.init()设置日志文件名前缀")
         }
         val sb = StringBuilder()
-        sb.append("[${logDateFormat.format(Date())}]")
+        when (type) {
+            Log.VERBOSE -> sb.append("[VERBOSE]")
+            Log.INFO -> sb.append("[INFO]")
+            Log.DEBUG -> sb.append("[DEBUG]")
+            Log.WARN -> sb.append("[WARN]")
+            Log.ERROR -> sb.append("[ERROR]")
+        }
+        sb.append(" [${logDateFormat.format(Date())}]")
             .append(" [${android.os.Process.myPid()}]")
-            .append(" ${context.packageName}: ")
+            .append(" [${Thread.currentThread().name}]")
+            .append(" [${context.packageName}]: ")
             .append(msg)
         when (type) {
             Log.VERBOSE -> Log4a.v(tag, sb.toString())
@@ -82,7 +90,7 @@ class FastFileLogEngine(var context: Context) : LogEngine {
         return logFileNamePrefix + "_" + dateStr + FILE_FORMAT
     }
 
-    fun getCacheLogDir(context: Context): File {
+    private fun getCacheLogDir(context: Context): File {
         var log = context.getExternalFilesDir("logs")
         if (log == null) {
             log = File(context.filesDir, "logs")

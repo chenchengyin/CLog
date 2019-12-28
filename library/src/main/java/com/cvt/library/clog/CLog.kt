@@ -371,7 +371,7 @@ object CLog {
         val headString = contents[2]
 
         if (type >= fileLogLevel && fileLogEngine != null) {
-            fileLogEngine!!.deliver(type, tagStr ?: "NULL", objects)
+            fileLogEngine!!.deliver(type, tag, headString + msg)
         }
         when (type) {
             Log.VERBOSE, Log.DEBUG, Log.INFO, Log.WARN, Log.ERROR, Log.ASSERT -> Util.printDefault(
